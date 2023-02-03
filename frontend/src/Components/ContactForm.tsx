@@ -1,18 +1,26 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { Contact } from "../Interfaces/Contact";
+import { addContact } from "../Services/Api";
 
-export default function ContactForm() {
+interface Props {
+  handleAddContact: (contact: Contact) => void;
+}
+
+export default function ContactForm({ handleAddContact }: Props) {
   // create a state variable for the form inputs
   const [contact, setContact] = useState({
-    firstname: "",
-    lastname: "",
-    physicaladdress: "",
-    billingaddress: "",
+    firstName: "",
+    lastName: "",
+    physicalAddress: "",
+    deliveryAddress: "",
   });
 
   // create a function to handle the form submission
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(contact);
+    const addedContact = await addContact(contact);
+    handleAddContact(addedContact);
   };
 
   // create a function to handle the form input changes
@@ -28,41 +36,42 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="firstname">First Name</label>
+      <label htmlFor="firstName">First Name</label>
       <input
         type="text"
-        id="firstname"
-        name="firstname"
-        value={contact.firstname}
+        id="firstName"
+        name="firstName"
+        value={contact.firstName}
         onChange={handleChange}
       />
 
-      <label htmlFor="lastname">Last Name</label>
+      <label htmlFor="lastName">Last Name</label>
       <input
         type="text"
-        id="lastname"
-        name="lastname"
-        value={contact.lastname}
+        id="lastName"
+        name="lastName"
+        value={contact.lastName}
         onChange={handleChange}
       />
 
-      <label htmlFor="physicaladdress">Physical Address</label>
+      <label htmlFor="physicalAddress">Physical Address</label>
       <input
         type="text"
-        id="physicaladdress"
-        name="physicaladdress"
-        value={contact.physicaladdress}
+        id="physicalAddress"
+        name="physicalAddress"
+        value={contact.physicalAddress}
         onChange={handleChange}
       />
 
-      <label htmlFor="billingaddress">Billing Address</label>
+      <label htmlFor="deliveryAddress">Delivery Address</label>
       <input
         type="text"
-        id="billingaddress"
-        name="billingaddress"
-        value={contact.billingaddress}
+        id="deliveryAddress"
+        name="deliveryAddress"
+        value={contact.deliveryAddress}
         onChange={handleChange}
       />
+      <button type="submit">Submit</button>
     </form>
   );
 }
