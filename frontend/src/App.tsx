@@ -4,8 +4,10 @@ import ContactForm from "./Components/ContactForm";
 function App() {
   return (
     <div className="App">
-      <h1>Contacts Management System</h1>
+      <h1>CMS</h1>
       <ContactForm />
+
+      <p>© chan : tim : mac</p>
     </div>
   );
 }
